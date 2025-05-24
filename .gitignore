@@ -34,3 +34,5 @@
 /config/master.key
 /config/credentials.yml.enc
 /config/credentials/test.key
+
+/config/credentials/development.key
