@@ -15,7 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RAILS_ENV: test
-      DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"
+      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      DATABASE_URL: "sqlite3:db/test.sqlite3"
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -24,11 +25,6 @@ jobs:
         uses: ruby/setup-ruby@78c01b705fd9d5ad960d432d3a0cfa341d50e410 # v1.179.1
         with:
           bundler-cache: true
-      - name: Set Rails credentials
-        run: |
-          mkdir -p config
-          echo "${{ secrets.RAILS_MASTER_KEY }}" > config/master.key
-          echo "${{ secrets.CREDENTIALS_TEST_YML_ENC }}" | base64 -d > config/credentials.yml.enc
       # Add or replace database setup steps here
       - name: Set up database schema
         run: bin/rails db:schema:load
