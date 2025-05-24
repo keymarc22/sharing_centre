@@ -11,7 +11,11 @@ default: &default
 
 development:
   <<: *default
-  database: storage/development.sqlite3
+  database: <%= Rails.application.credentials.database.name %>
+  username: <%= Rails.application.credentials.database.username %>
+  password: <%= Rails.application.credentials.database.password %>
+  host: <%= Rails.application.credentials.database.host %>
+  port: <%= Rails.application.credentials.database.port %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -29,4 +33,8 @@ test:
 # ensure the database is located in a persisted volume.
 production:
   <<: *default
-  # database: path/to/persistent/storage/production.sqlite3
+  database: <%= Rails.application.credentials.database.name %>
+  username: <%= Rails.application.credentials.database.username %>
+  password: <%= Rails.application.credentials.database.password %>
+  host: <%= Rails.application.credentials.database.host %>
+  port: <%= Rails.application.credentials.database.port %>
