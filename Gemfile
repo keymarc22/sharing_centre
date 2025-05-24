@@ -18,6 +18,7 @@ group :development, :test do
   gem "factory_bot_rails"
   # Patch-level verification for bundler.
   gem "bundler-audit"
+  gem "brakeman"
 end
 
 group :test  do
