@@ -26,9 +26,15 @@ jobs:
           bundler-cache: true
       - name: Set Rails credentials
         run: |
+<<<<<<< HEAD
           mkdir -p config
           echo "${{ secrets.RAILS_MASTER_KEY }}" > config/master.key
           echo "${{ secrets.CREDENTIALS_TEST_YML_ENC }}" | base64 -d > config/credentials.yml.enc
+=======
+          mkdir -p config/credentials
+          echo "${{ secrets.RAILS_MASTER_KEY }}" > config/master.key
+          echo "${{ secrets.CREDENTIALS_TEST_YML_ENC }}" | base64 -d > config/credentials/test.yml.enc
+>>>>>>> bc00fad289a2b43c92c9a64da5d0707095d84bd4
       # Add or replace database setup steps here
       - name: Set up database schema
         run: bin/rails db:schema:load
