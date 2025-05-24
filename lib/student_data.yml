@@ -1,0 +1,34 @@
+custom_data:
+  birthday:
+    type: date
+    required: true
+  profession:
+    type: string
+    required: true
+  work_position:
+    type: string
+    required: true
+  workplace:
+    type: string
+    required: true
+  learning_needs:
+    type: array
+    required: true
+    options:
+      - professional
+      - academic
+      - personal
+  current_language_level:
+    type: string
+    required: false
+
+onboarding:
+  -
+    en: Do you prefer reading, writing, speaking, or listening activities?
+    es: ¿Prefieres actividades de leer, escribir, hablar o escuchar?
+  -
+    en: Do you learn best through visual aids or hands-on activities?
+    es: ¿Aprendes mejor a través de medios visuales o interacción dinámica?
+  -
+    en: Do you like to receive feedback and corrections during or after an activity?
+    es: ¿Te gusta recibir retroalimentación y correcciones DURANTE o DESPUÉS de una actividad?
