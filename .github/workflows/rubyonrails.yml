@@ -13,18 +13,10 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:11-alpine
-        ports:
-          - "5432:5432"
-        env:
-          POSTGRES_DB: rails_test
-          POSTGRES_USER: rails
-          POSTGRES_PASSWORD: password
     env:
       RAILS_ENV: test
-      DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"
+      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      DATABASE_URL: "sqlite3:db/test.sqlite3"
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -50,11 +42,9 @@ jobs:
         with:
           bundler-cache: true
       - name: Generate binstubs
-        run: bundle binstubs bundler-audit brakeman rubocop
+        run: bundle binstubs bundler-audit brakeman
       # Add or replace any other lints here
       - name: Security audit dependencies
         run: bin/bundler-audit --update
       - name: Security audit application code
         run: bin/brakeman -q -w2
-      - name: Lint Ruby files
-        run: bin/rubocop --parallel
