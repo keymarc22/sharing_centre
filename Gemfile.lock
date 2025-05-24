@@ -241,7 +241,7 @@ PLATFORMS
   x86_64-linux-gnu
 
 DEPENDENCIES
-  actionmailer
+  actionmailer (~> 8.0)
   brakeman
   bundler-audit
   database_cleaner-active_record
