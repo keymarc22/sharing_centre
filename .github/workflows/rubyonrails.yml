@@ -28,6 +28,7 @@ jobs:
         run: |
           mkdir -p config
           echo "${{ secrets.RAILS_MASTER_KEY }}" > config/master.key
+          mkdir -p config/credentials
           echo "${{ secrets.CREDENTIALS_TEST_YML_ENC }}" | base64 -d > config/credentials/test.yml.enc
       # Add or replace database setup steps here
       - name: Set up database schema
