@@ -10,7 +10,58 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_24_195727) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_24_230017) do
+  create_table "program_intervals", force: :cascade do |t|
+    t.integer "study_interval_id"
+    t.integer "program_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["program_id"], name: "index_program_intervals_on_program_id"
+    t.index ["study_interval_id", "program_id"], name: "index_program_intervals_on_study_interval_id_and_program_id", unique: true
+    t.index ["study_interval_id"], name: "index_program_intervals_on_study_interval_id"
+  end
+
+  create_table "programs", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description", null: false
+    t.integer "price_cents", default: 0, null: false
+    t.string "price_currency", default: "MXN", null: false
+    t.integer "status", default: 0, null: false
+    t.string "language", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["language"], name: "index_programs_on_language"
+    t.index ["name"], name: "index_programs_on_name", unique: true
+  end
+
+  create_table "student_programs", force: :cascade do |t|
+    t.integer "student_id", null: false
+    t.integer "program_id"
+    t.integer "study_interval_id"
+    t.integer "price_cents", default: 0, null: false
+    t.string "price_currency", default: "MXN", null: false
+    t.integer "study_sessions", null: false
+    t.string "study_frequency", null: false
+    t.integer "status", default: 0, null: false
+    t.string "language", null: false
+    t.date "start_date", null: false
+    t.date "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["program_id"], name: "index_student_programs_on_program_id"
+    t.index ["student_id", "status"], name: "idx_student_active_program", unique: true, where: "status = 0"
+    t.index ["student_id"], name: "index_student_programs_on_student_id"
+    t.index ["study_interval_id"], name: "index_student_programs_on_study_interval_id"
+  end
+
+  create_table "study_intervals", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "study_sessions", null: false
+    t.integer "study_frequency", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
     t.string "email", null: false
@@ -23,7 +74,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_24_195727) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "type", default: "User", null: false
+    t.integer "active_program_id"
+    t.index ["active_program_id"], name: "index_users_on_active_program_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  add_foreign_key "users", "student_programs", column: "active_program_id"
 end
