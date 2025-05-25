@@ -10,4 +10,13 @@ module StudyDataConcern
     2_per_week
     1_per_week
   ]
+
+  TOPIC_CATEGORIES = %w[
+    vocabulary
+    grammar
+    writing
+    activity
+    reading
+    questions
+  ]
 end
