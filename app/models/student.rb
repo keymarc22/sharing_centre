@@ -4,6 +4,7 @@ class Student < User
 
   has_many :student_programs
   has_many :programs, through: :student_programs
+  has_many :book_lists, dependent: :destroy
 
   has_one :personalized_program
 
