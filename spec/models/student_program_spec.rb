@@ -125,15 +125,15 @@ RSpec.describe StudentProgram, type: :model do
 
   describe 'associations' do
     it 'has many student_programs' do
-      sp1 = StudentProgram.create!(student: student, program: program, study_interval: study_interval, price: 1000, study_sessions: 5, study_frequency: StudyDataConcern::STUDY_FREQUENCY.first, status: "active", language: StudyDataConcern::LANGUAGES.first, start_date: Date.today)
-      sp2 = StudentProgram.create!(student: student, program: program, study_interval: study_interval, price: 1000, study_sessions: 5, study_frequency: StudyDataConcern::STUDY_FREQUENCY.first, status: "finished", language: StudyDataConcern::LANGUAGES.first, start_date: Date.today)
+      sp1 = create(:student_program, student:, program:, study_interval:, price: 1000, study_sessions: 5)
+      sp2 = create(:student_program, student:, program:, study_interval:, price: 1000, study_sessions: 5, status: 'finished')
       expect(student.student_programs).to include(sp1, sp2)
     end
 
     it 'has many programs through student_programs' do
       program2 = Program.create!(name: "Programa 2", description: "Desc", price: 1000, status: "published", language: StudyDataConcern::LANGUAGES.first)
-      StudentProgram.create!(student: student, program: program, study_interval: study_interval, price: 1000, study_sessions: 5, study_frequency: StudyDataConcern::STUDY_FREQUENCY.first, status: "active", language: StudyDataConcern::LANGUAGES.first, start_date: Date.today)
-      StudentProgram.create!(student: student, program: program2, study_interval: study_interval, price: 1000, study_sessions: 5, study_frequency: StudyDataConcern::STUDY_FREQUENCY.first, status: "finished", language: StudyDataConcern::LANGUAGES.first, start_date: Date.today)
+      create(:student_program, student:, program:, study_interval:, study_sessions: 5, status: 'finished')
+      create(:student_program, student:, program: program2, study_interval:, study_sessions: 5, status: 'finished')
       expect(student.programs).to include(program, program2)
     end
   end
