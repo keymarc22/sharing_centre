@@ -10,7 +10,45 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_24_230017) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_25_014018) do
+  create_table "lesson_topics", force: :cascade do |t|
+    t.integer "lesson_id"
+    t.string "name", null: false
+    t.string "category", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category"], name: "index_lesson_topics_on_category"
+    t.index ["lesson_id"], name: "index_lesson_topics_on_lesson_id"
+    t.index ["name"], name: "index_lesson_topics_on_name"
+  end
+
+  create_table "lessons", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "language_level"
+    t.string "language", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["language"], name: "index_lessons_on_language"
+    t.index ["language_level"], name: "index_lessons_on_language_level"
+    t.index ["name"], name: "index_lessons_on_name", unique: true
+  end
+
+  create_table "personalized_program_topics", force: :cascade do |t|
+    t.integer "lesson_topic_id"
+    t.integer "personalized_program_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lesson_topic_id"], name: "index_personalized_program_topics_on_lesson_topic_id"
+    t.index ["personalized_program_id"], name: "index_personalized_program_topics_on_personalized_program_id"
+  end
+
+  create_table "personalized_programs", force: :cascade do |t|
+    t.integer "student_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["student_id"], name: "index_personalized_programs_on_student_id"
+  end
+
   create_table "program_intervals", force: :cascade do |t|
     t.integer "study_interval_id"
     t.integer "program_id"
