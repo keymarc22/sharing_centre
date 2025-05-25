@@ -10,7 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_25_014018) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_25_022534) do
+  create_table "book_lists", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "student_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name", "student_id"], name: "index_book_lists_on_name_and_student_id", unique: true
+    t.index ["student_id"], name: "index_book_lists_on_student_id"
+  end
+
+  create_table "books", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "language_level"
+    t.string "language", null: false
+    t.string "keywords"
+    t.integer "lesson_id"
+    t.integer "lesson_topic_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["language"], name: "index_books_on_language"
+    t.index ["language_level"], name: "index_books_on_language_level"
+    t.index ["lesson_id"], name: "index_books_on_lesson_id"
+    t.index ["lesson_topic_id"], name: "index_books_on_lesson_topic_id"
+    t.index ["name"], name: "index_books_on_name"
+  end
+
   create_table "lesson_topics", force: :cascade do |t|
     t.integer "lesson_id"
     t.string "name", null: false
@@ -70,6 +95,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_25_014018) do
     t.datetime "updated_at", null: false
     t.index ["language"], name: "index_programs_on_language"
     t.index ["name"], name: "index_programs_on_name", unique: true
+  end
+
+  create_table "student_book_lists", id: false, force: :cascade do |t|
+    t.integer "book_id", null: false
+    t.integer "book_list_id", null: false
+    t.index ["book_id", "book_list_id"], name: "index_student_book_lists_on_book_id_and_book_list_id", unique: true
+    t.index ["book_id"], name: "index_student_book_lists_on_book_id"
+    t.index ["book_list_id"], name: "index_student_book_lists_on_book_list_id"
   end
 
   create_table "student_programs", force: :cascade do |t|
