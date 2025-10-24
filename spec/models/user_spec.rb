@@ -86,3 +86,52 @@ RSpec.describe Student, type: :model do
     end
   end
 end
+
+RSpec.describe User, type: :model do
+  before do
+    stub_const('ROLES', ['student', 'admin'])
+    stub_const('Role::List', ['student', 'admin'])
+
+    stub_const('DummyUser', Class.new do
+      include ActiveModel::Model
+      include RolableConcern
+      attr_accessor :role
+    end)
+  end
+
+  let(:instance) { DummyUser.new(role: role) }
+  let(:role) { 'student' }
+
+  describe 'validations' do
+    it 'is invalid without a role' do
+      obj = DummyUser.new(role: nil)
+      expect(obj).not_to be_valid
+      expect(obj.errors[:role]).to include("can't be blank")
+    end
+
+    it 'is invalid with a role not in Role::List' do
+      obj = DummyUser.new(role: 'unknown')
+      expect(obj).not_to be_valid
+      expect(obj.errors[:role]).to include("is not included in the list")
+    end
+  end
+
+  describe '#can?' do
+    it 'delegates to Role.can? with the instance role and given action' do
+      expect(Role).to receive(:can?).with('student', :show).and_return(true)
+      expect(instance.can?(:show)).to be true
+    end
+  end
+
+  describe 'role predicate methods' do
+    it 'defines predicate for each role in ROLES' do
+      expect(instance).to respond_to(:student?)
+      expect(instance).to respond_to(:admin?)
+    end
+
+    it 'returns true for matching predicate and false otherwise' do
+      expect(instance.student?).to be true
+      expect(instance.admin?).to be false
+    end
+  end
+end

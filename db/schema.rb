@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_25_022534) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_24_020808) do
   create_table "book_lists", force: :cascade do |t|
     t.string "name", null: false
     t.integer "student_id", null: false
@@ -147,6 +147,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_25_022534) do
     t.datetime "updated_at", null: false
     t.string "type", default: "User", null: false
     t.integer "active_program_id"
+    t.string "role", default: "student", null: false
     t.index ["active_program_id"], name: "index_users_on_active_program_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
