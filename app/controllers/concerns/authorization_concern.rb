@@ -10,7 +10,6 @@ module AuthorizationConcern
     Role.can?(current_user.role, resource, action)
   end
 
-  # Lanza una respuesta apropiada si no tiene permiso (redirige o responde 403)
   def authorize!(resource, action = :manage)
     return if current_user_can?(resource, action)
 
