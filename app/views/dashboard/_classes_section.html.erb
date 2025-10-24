@@ -1,0 +1,27 @@
+<div class="classes-section">
+  <div class="section-header">
+    <h3 class="section-title">Classes</h3>
+    <button class="view-all-button">View All →</button>
+  </div>
+
+  <div class="classes-grid">
+    <% classes.each do |class_item| %>
+      <div class="class-card <%= class_item[:color].gsub('bg-blue-500', 'blue-card').gsub('bg-blue-400', 'light-blue-card').gsub('bg-pink-400', 'pink-card') %>">
+        <div class="class-card-content">
+          <h4 class="class-title"><%= class_item[:title] %></h4>
+          <div class="avatar-group">
+            <% class_item[:avatars].each do |avatar| %>
+              <div class="class-avatar">
+                <span class="avatar-text"><%= avatar %></span>
+              </div>
+            <% end %>
+          </div>
+          <div class="class-info">
+            <span>📁 <%= class_item[:files] %> Files</span>
+            <span>👨‍🏫 Teacher: <%= class_item[:teacher] %></span>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

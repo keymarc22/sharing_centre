@@ -1,0 +1,17 @@
+<div class="right-sidebar">
+  <!-- Profile Section -->
+  <div class="profile-section">
+    <div class="profile-avatar">
+      <%= current_user[:avatar] %>
+    </div>
+    <h3 class="profile-name"><%= current_user[:name] %></h3>
+    <p class="profile-role"><%= current_user[:role] %></p>
+    <button class="profile-button">Profile</button>
+  </div>
+
+  <!-- Calendar -->
+  <%= render 'shared/calendar', calendar_date: calendar_date %>
+
+  <!-- Reminders -->
+  <%= render 'shared/reminders', reminders: reminders %>
+</div>

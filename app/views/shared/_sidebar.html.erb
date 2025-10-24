@@ -1,0 +1,32 @@
+<div class="sidebar">
+  <div class="sidebar-content">
+    <!-- Logo -->
+    <div class="logo-container">
+      <div class="logo-icon"></div>
+      <span class="logo-text">Learnthru</span>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sidebar-nav">
+      <%= render 'shared/nav_item', icon: 'home', label: 'Dashboard', active: true %>
+      <%= render 'shared/nav_item', icon: 'users', label: 'Classroom', active: false %>
+      <%= render 'shared/nav_item', icon: 'video', label: 'Live Lessons', active: false %>
+      <%= render 'shared/nav_item', icon: 'play', label: 'Recorded Lessons', active: false %>
+      <%= render 'shared/nav_item', icon: 'book-open', label: 'Video library', active: false %>
+    </nav>
+  </div>
+
+  <!-- Help Section -->
+  <div class="help-section">
+    <div class="help-card">
+      <div class="help-card-content">
+        <div class="help-icon-container">
+          <%= lucide_icon "help-circle", class: "help-icon" %>
+        </div>
+        <h3 class="help-title">Need help?</h3>
+        <p class="help-text">Do you have any problem while using the Learnthru?</p>
+        <span class="help-badge">24/7</span>
+      </div>
+    </div>
+  </div>
+</div>

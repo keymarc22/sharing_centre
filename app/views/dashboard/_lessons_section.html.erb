@@ -1,0 +1,51 @@
+<div class="lessons-section">
+  <div class="section-header">
+    <h3 class="section-title">Lessons</h3>
+    <button class="view-all-button">View All →</button>
+  </div>
+
+  <div class="lessons-table-card">
+    <table class="lessons-table">
+      <thead>
+        <tr>
+          <th>Class</th>
+          <th>Teacher Name</th>
+          <th>Members</th>
+          <th>Starting</th>
+          <th>Material</th>
+          <th>Payment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% lessons.each do |lesson| %>
+          <tr>
+            <td class="class-cell"><%= lesson[:class] %></td>
+            <td><%= lesson[:teacher] %></td>
+            <td>
+              <div class="members-group">
+                <% lesson[:members].each do |member| %>
+                  <div class="member-avatar">
+                    <span class="member-initials"><%= member %></span>
+                  </div>
+                <% end %>
+                <span class="members-count">+<%= lesson[:members].length %></span>
+              </div>
+            </td>
+            <td><%= lesson[:starting] %></td>
+            <td>
+              <button class="download-button">
+                <%= lucide_icon "download", class: "download-icon" %>
+                <%= lesson[:material] %>
+              </button>
+            </td>
+            <td>
+              <span class="payment-badge <%= lesson[:payment_color].include?('blue') ? 'payment-done' : 'payment-pending' %>">
+                <%= lesson[:payment] %>
+              </span>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

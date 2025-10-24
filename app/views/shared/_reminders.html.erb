@@ -1,0 +1,16 @@
+<div class="reminders-section">
+  <h4 class="reminders-title">Reminders</h4>
+  <div class="reminders-list">
+    <% reminders.each do |reminder| %>
+      <div class="reminder-item">
+        <div class="reminder-icon-container">
+          <%= lucide_icon "bell", class: "reminder-icon" %>
+        </div>
+        <div class="reminder-content">
+          <p class="reminder-title"><%= reminder[:title] %></p>
+          <p class="reminder-date"><%= reminder[:date] %></p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
