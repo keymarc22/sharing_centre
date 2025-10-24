@@ -1,16 +1,25 @@
-<h2>Forgot your password?</h2>
+<div class="welcome-text">
+  <h1><%= t('devise.sessions.new.welcome') %></h1>
+  <p><%= t('devise.sessions.new.reset_password') %></p>
+</div>
 
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
   <%= render "users/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  <div class="form-group">
+    <%= f.label :email, t('devise.sessions.new.email') %>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Send me reset password instructions" %>
+    <%= f.submit t('devise.sessions.send_instructions'), class: "btn-login" %>
   </div>
 <% end %>
 
-<%= render "users/shared/links" %>
+<div class="divider">
+  <span><%= t('devise.sessions.new.or') %></span>
+</div>
+
+<div class="signup-link">
+  <a href="<%= new_session_path(resource_name) %>"><%= t('devise.sessions.new.sign_in') %></a>
+</div>

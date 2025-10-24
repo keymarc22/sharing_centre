@@ -1,2 +1,22 @@
+---
 es:
-  hello: "Hola mundo"
+  devise:
+    sessions:
+      new:
+        email: Correo electrónico
+        forgot_password: Olvidé mi contraseña
+        language: Inglés / Español
+        no_account: No tiene una cuenta?
+        or: O
+        password: contraseña
+        remember_me: Remember me
+        reset_password: Reset password
+        sign_in: Iniciar sesión
+        sign_in_prompt: Iniciar sesión
+        sign_up: Registrarse
+        title: Iniciar sesión
+        welcome: Bienvenido
+      send_instructions: Send instructions
+  errors:
+    messages:
+      not_saved: 'No fue posible guardar el {resource}:'
