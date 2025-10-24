@@ -1,2 +1,22 @@
+---
 en:
-  hello: "Hello world"
+  devise:
+    sessions:
+      new:
+        email: Email
+        forgot_password: Forgot password
+        language: English / Spanish
+        no_account: No account?
+        or: Or
+        password: Password
+        remember_me: Remember me
+        reset_password: Reset password
+        sign_in: Sign in
+        sign_in_prompt: Sign in
+        sign_up: Sign up
+        title: Sign in
+        welcome: Welcome
+      send_instructions: Send instructions
+  errors:
+    messages:
+      not_saved: 'Could not save {resource}:'
