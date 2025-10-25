@@ -6,7 +6,7 @@ module RolableConcern
     validates :role, presence: true
   end
 
-  def can?(ability, action)
+  def can?(ability, action = nil)
     Role.can?(role, ability, action)
   end
 

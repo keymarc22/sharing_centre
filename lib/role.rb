@@ -8,7 +8,7 @@ class Role
     role_def = defs[role.to_sym] || defs[role.to_s.to_sym]
     return false unless role_def
 
-    role_def.allows?(resource, action)
+    role_def.allows?(resource.to_sym, action)
   end
 
   class RoleDefinition
@@ -21,6 +21,7 @@ class Role
     # can :resource, only: [:show]     => permite acciones concretas
     def can(resource, only: nil)
       key = resource.to_sym
+
       @permissions[key] ||= []
       if only
         Array(only).each { |a| @permissions[key] << a.to_sym }
@@ -31,12 +32,11 @@ class Role
     end
 
     def allows?(resource, action = nil)
-      key = resource.to_sym
-      return false unless @permissions.key?(key)
-      return true if @permissions[key].include?(:manage)
-      return true if action.nil?
+      return false unless @permissions.key?(resource)
+      return true if @permissions[resource].include?(:manage)
+      return false if action.nil?
 
-      @permissions[key].include?(action.to_sym)
+      @permissions[resource].include?(action.to_sym)
     end
 
     attr_reader :permissions
@@ -60,7 +60,6 @@ class Role
     can :program_intervals
     can :programs
     can :students
-    can :users
     can :study_intervals
     can :teachers
     can :classes
