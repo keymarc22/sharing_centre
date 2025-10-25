@@ -32,6 +32,23 @@ RSpec.describe User, type: :model do
       expect(subject.errors[:password]).to include("can't be blank")
     end
   end
+
+  context 'ability' do
+    it 'works' do
+      subject.role = 'admin'
+
+      expect(subject.can?(:lessons)).to be true
+      expect(subject.can?(:lessons, :read)).to be true
+      expect(subject.can?(:users)).to be false
+
+      expect(subject.admin?).to be true
+
+      subject.role = 'student'
+
+      expect(subject.can?(:lessons)).to be false # because :manage is not allowed
+      expect(subject.can?(:lessons, :show)).to be true
+    end
+  end
 end
 
 RSpec.describe Student, type: :model do
@@ -118,8 +135,8 @@ RSpec.describe User, type: :model do
 
   describe '#can?' do
     it 'delegates to Role.can? with the instance role and given action' do
-      expect(Role).to receive(:can?).with('student', :show).and_return(true)
-      expect(instance.can?(:show)).to be true
+      expect(Role).to receive(:can?).with('student', :lessons, :show).and_return(true)
+      expect(instance.can?(:lessons, :show)).to be true
     end
   end
 

@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include AuthorizationConcern
+  layout false
 
   before_action :authenticate_user!
   around_action :switch_locale

@@ -5,6 +5,8 @@
 </div>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { data: { controller: 'toggle-password' } }) do |f| %>
+  <%= render "users/shared/error_messages", resource: resource %>
+
   <div class="form-group">
     <%= f.label :email, t('devise.sessions.new.email') %>
     <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true %>
