@@ -1,7 +1,7 @@
 class Role
   LIST = %w[admin teacher superadmin student].freeze
 
-  def self.can?(role, action)
+  def self.can?(role, resource, action)
     return true if role == 'superadmin'
 
     defs = @roles || {}
@@ -34,7 +34,8 @@ class Role
       key = resource.to_sym
       return false unless @permissions.key?(key)
       return true if @permissions[key].include?(:manage)
-      return false if action.nil?
+      return true if action.nil?
+
       @permissions[key].include?(action.to_sym)
     end
 
@@ -62,6 +63,7 @@ class Role
     can :users
     can :study_intervals
     can :teachers
+    can :classes
   end
 
   role :teacher do
@@ -72,6 +74,7 @@ class Role
     can :lessons
     can :personalized_programs
     can :personalized_program_topics
+    can :classes
   end
 
   role :student do
@@ -79,7 +82,11 @@ class Role
     can :personalized_programs, only: [:show]
     can :personalized_program_topics, only: [:show]
     can :study_intervals
-    can :programs, only: [:show]
+    can :student_programs, only: [:show]
+    can :lessons, only: [:show]
+    can :books, only: [:show]
+    can :book_lists, only: [:show]
     can :teachers, only: [:show]
+    can :classes, only: [:show]
   end
 end

@@ -1,10 +1,12 @@
 class DashboardController < ApplicationController
   def index
-    @current_user = current_user_data
-    @classes = classes_data
-    @lessons = lessons_data
-    @reminders = reminders_data
-    @calendar_date = Date.new(2022, 12, 1)
+    # @current_user = current_user_data
+    # @classes = classes_data
+    # @lessons = lessons_data
+    # @reminders = reminders_data
+    # @calendar_date = Date.new(2022, 12, 1)
+
+    render Views::Dashboard::Index.new
   end
 
   private
