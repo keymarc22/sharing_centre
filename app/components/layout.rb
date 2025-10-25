@@ -1,6 +1,7 @@
 class Components::Layout < Components::Base
-  def initialize(title:)
+  def initialize(title:, show_sidebar: true)
     @title = title
+    @show_sidebar = show_sidebar
   end
 
   def view_template
@@ -10,6 +11,10 @@ class Components::Layout < Components::Base
 
         div(class: "main-content") do
           yield
+        end
+
+        if @show_sidebar
+          render Components::RightSidebar.new
         end
       end
     end

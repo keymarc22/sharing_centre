@@ -13,6 +13,6 @@ class Components::Base < Phlex::HTML
     end
   end
 
-  delegate :current_user, to: :view_context
+  delegate :current_user, :lucide_icon, to: :view_context
 
 end

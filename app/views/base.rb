@@ -27,5 +27,5 @@ class Views::Base < Phlex::HTML
 
   private
 
-  delegate :current_user, :stylesheet_link_tag, :javascript_importmap_tags, :csrf_meta_tags, :csp_meta_tag, to: :view_context
+  delegate :current_user, :stylesheet_link_tag, :javascript_importmap_tags, :csrf_meta_tags, :csp_meta_tag, :lucide_icon, to: :view_context
 end

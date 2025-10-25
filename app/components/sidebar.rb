@@ -8,6 +8,17 @@ class Components::Sidebar < Components::Base
         nav(class: "sidebar-nav") do
           resolved_items.each { |item| nav_item(item) }
         end
+
+        div(class: 'sidebar-footer') do
+          ul do
+            li do
+              a(href: '', class: 'nav-item', rel: "noopener") do
+                raw view_context.lucide_icon("log-out")
+                span { 'Cerrar sesión' }
+              end
+            end
+          end
+        end
       end
     end
   end
@@ -21,11 +32,11 @@ class Components::Sidebar < Components::Base
   private
 
   NAV_ITEMS = [
-    { label: ->(c) { c.t('views.sidebar.dashboard') }, icon: "home", path: ->(c) { c.root_path }, ability: :dashboard },
+    { label: ->(c) { c.t('views.sidebar.home') }, icon: "house", path: ->(c) { c.root_path }, ability: :dashboard },
     { label: ->(c) { c.t('views.sidebar.students')  }, icon: "users", path: ->(c) { c.students_path rescue "#" }, ability: :students },
-    { label: ->(c) { c.t('views.sidebar.teachers')  }, icon: "users", path: ->(c) { c.teachers_path rescue "#" }, ability: :teachers },
-    { label: ->(c) { c.t('views.sidebar.programs')   }, icon: "book-open", path: ->(c) { c.programs_path rescue "#" }, ability: :programs },
-    { label: ->(c) { c.t('views.sidebar.lessons')    }, icon: "book", path: ->(c) { c.lessons_path rescue "#" }, ability: :lessons },
+    { label: ->(c) { c.t('views.sidebar.teachers')  }, icon: "graduation-cap", path: ->(c) { c.teachers_path rescue "#" }, ability: :teachers },
+    { label: ->(c) { c.t('views.sidebar.programs')   }, icon: "award", path: ->(c) { c.programs_path rescue "#" }, ability: :programs },
+    { label: ->(c) { c.t('views.sidebar.lessons')    }, icon: "book-open-check", path: ->(c) { c.lessons_path rescue "#" }, ability: :lessons },
     { label: ->(c) { c.t('views.sidebar.books')      }, icon: "book", path: ->(c) { c.books_path rescue "#" }, ability: :books },
     { label: ->(c) { c.t('views.sidebar.classes')    }, icon: "calendar", path: ->(c) { c.classes_path rescue "#" }, ability: :classes }
   ].freeze
@@ -45,7 +56,7 @@ class Components::Sidebar < Components::Base
 
     a(href: item[:path], class: classes.join(" ")) do
       if item[:icon]
-        view_context.lucide_icon(item[:icon])
+        raw view_context.lucide_icon(item[:icon])
       end
       span(class: "nav-label") { item[:label] }
     end
