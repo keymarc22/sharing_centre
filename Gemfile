@@ -28,6 +28,8 @@ gem "shadcn-ui", "~> 0.0.15"
 # Use Tailwind CSS [https://github.com/rails/tailwindcss-rails]
 gem "tailwindcss-rails", "~> 4.2"
 
+gem "tailwindcss-ruby", "~> 4.1"
+
 gem "lucide-rails"
 
 gem "phlex-rails", "~> 2.3"
@@ -41,6 +43,7 @@ group :development, :test do
   # Patch-level verification for bundler.
   gem "bundler-audit"
   gem "brakeman"
+  gem "byebug", "~> 12.0"
 end
 
 group :test  do
