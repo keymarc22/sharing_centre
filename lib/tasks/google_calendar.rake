@@ -88,23 +88,24 @@ namespace :google_calendar do
           }
         )
         
-        # Create watch channel record
+        # Create watch channel record and update calendar
+        expires_at_time = Time.at(channel.expiration / 1000)
+        
         GoogleWatchChannel.create!(
           channel_id: channel.id,
           resource_id: channel.resource_id,
           resource_uri: channel.resource_uri,
           google_calendar: google_calendar,
-          expires_at: Time.at(channel.expiration / 1000),
+          expires_at: expires_at_time,
           metadata: {
             kind: channel.kind
           }
         )
         
-        # Update calendar record
         google_calendar.setup_watch!(
           channel_id: channel.id,
           resource_id: channel.resource_id,
-          expires_at: Time.at(channel.expiration / 1000)
+          expires_at: expires_at_time
         )
         
         puts "  ✓ Watch channel created (expires: #{google_calendar.watch_expires_at})"

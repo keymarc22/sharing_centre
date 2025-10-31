@@ -78,9 +78,13 @@ class ClassSession < ApplicationRecord
       google_event_updated_at: parse_google_datetime(g_event_hash['updated']),
       google_calendar_timezone: g_event_hash.dig('start', 'timeZone'),
       last_synced_at: Time.current,
-      owner_user: owner_user,
-      owner_calendar_id: GoogleCalendar.find_by(user: owner_user, calendar_id: owner_calendar_id)&.id
+      owner_user: owner_user
     )
+    
+    # Set owner_calendar_id if we have a GoogleCalendar record
+    # Note: This query is intentionally simple and should be cached by AR
+    google_cal = GoogleCalendar.find_by(user: owner_user, calendar_id: owner_calendar_id)
+    session.owner_calendar_id = google_cal&.id if google_cal
 
     # Set teacher if not already set
     session.teacher ||= owner_user

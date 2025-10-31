@@ -34,16 +34,18 @@ class SyncUserCalendarJob < ApplicationJob
       # Process each event
       events_count = 0
       events_result.items.each do |event|
-        next if event.status == 'cancelled' && event.id.blank?
-        
-        ClassSession.sync_from_google_event(
-          event.to_h.deep_stringify_keys,
-          owner_user: user,
-          owner_calendar_id: calendar_id
-        )
-        events_count += 1
-      rescue StandardError => e
-        Rails.logger.error("Failed to sync event #{event.id}: #{e.message}")
+        begin
+          next if event.status == 'cancelled' && event.id.blank?
+          
+          ClassSession.sync_from_google_event(
+            event.to_h.deep_stringify_keys,
+            owner_user: user,
+            owner_calendar_id: calendar_id
+          )
+          events_count += 1
+        rescue StandardError => e
+          Rails.logger.error("Failed to sync event #{event.id}: #{e.message}")
+        end
       end
       
       # Update sync token if available
