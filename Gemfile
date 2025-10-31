@@ -34,6 +34,10 @@ gem "lucide-rails"
 
 gem "phlex-rails", "~> 2.3"
 
+# Google Calendar API integration
+gem "google-apis-calendar_v3", "~> 0.48"
+gem "googleauth", "~> 1.11"
+
 gem 'i18n-tasks', '~> 1.0.15', group: :development
 
 group :development, :test do
