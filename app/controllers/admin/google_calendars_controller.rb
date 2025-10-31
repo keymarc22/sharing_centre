@@ -121,7 +121,7 @@ module Admin
     end
     
     def ensure_admin!
-      unless current_user&.admin? || current_user&.superadmin?
+      unless current_user&.can?(:google_calendars)
         respond_to do |format|
           format.html do
             flash[:error] = "Access denied"
