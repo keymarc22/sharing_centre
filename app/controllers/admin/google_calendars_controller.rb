@@ -8,8 +8,6 @@ module Admin
     def index
       @google_calendars = GoogleCalendar.includes(:user)
                                         .order('users.email ASC, google_calendars.calendar_id ASC')
-                                        .page(params[:page])
-                                        .per(50)
       
       respond_to do |format|
         format.html

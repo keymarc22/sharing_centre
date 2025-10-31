@@ -1,0 +1,99 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold mb-2">Google Calendars</h1>
+    <p class="text-gray-600">Manage calendar synchronization for all users</p>
+  </div>
+
+  <div class="mb-6 flex gap-4">
+    <%= button_to "Sync All Calendars", 
+                  sync_all_admin_google_calendars_path(locale: I18n.locale), 
+                  method: :post,
+                  class: "px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700",
+                  data: { confirm: "This will enqueue sync jobs for all calendars. Continue?" } %>
+    
+    <%= button_to "Force Full Sync All", 
+                  sync_all_admin_google_calendars_path(locale: I18n.locale, force_full_sync: true), 
+                  method: :post,
+                  class: "px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700",
+                  data: { confirm: "This will perform full sync for all calendars (ignoring sync tokens). Continue?" } %>
+  </div>
+
+  <div class="bg-white shadow-md rounded-lg overflow-hidden">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Calendar ID</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Summary</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Synced</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Watch Status</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <% if @google_calendars.any? %>
+          <% @google_calendars.each do |calendar| %>
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm font-medium text-gray-900"><%= calendar.user.name %></div>
+                <div class="text-sm text-gray-500"><%= calendar.user.email %></div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <%= calendar.calendar_id %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <%= calendar.summary || 'N/A' %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <%= calendar.last_synced_at ? time_ago_in_words(calendar.last_synced_at) + " ago" : "Never" %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <% if calendar.watch_active? %>
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                    Active
+                  </span>
+                  <div class="text-xs text-gray-500 mt-1">
+                    Expires <%= time_ago_in_words(calendar.watch_expires_at) %> from now
+                  </div>
+                <% else %>
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                    Inactive
+                  </span>
+                <% end %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                <div class="flex gap-2">
+                  <%= button_to "Sync", 
+                                sync_now_admin_google_calendar_path(calendar, locale: I18n.locale), 
+                                method: :post,
+                                class: "text-blue-600 hover:text-blue-900" %>
+                  
+                  <%= button_to "Force Sync", 
+                                sync_now_admin_google_calendar_path(calendar, locale: I18n.locale, force_full_sync: true), 
+                                method: :post,
+                                class: "text-purple-600 hover:text-purple-900" %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr>
+            <td colspan="6" class="px-6 py-4 text-center text-gray-500">
+              No calendars found. Run <code class="bg-gray-100 px-2 py-1 rounded">rails google_calendar:bootstrap_calendars</code> to set up calendars.
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4">
+    <h3 class="text-lg font-semibold mb-2">Setup Instructions</h3>
+    <ol class="list-decimal list-inside space-y-2 text-sm">
+      <li>Ensure Google Calendar credentials are configured in Rails credentials</li>
+      <li>Run <code class="bg-gray-100 px-2 py-1 rounded">rails google_calendar:bootstrap_calendars</code> to discover and register calendars</li>
+      <li>Run <code class="bg-gray-100 px-2 py-1 rounded">rails google_calendar:setup_watches</code> to enable push notifications</li>
+      <li>Use "Sync All" to perform initial synchronization</li>
+    </ol>
+  </div>
+</div>
