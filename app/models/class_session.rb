@@ -83,8 +83,12 @@ class ClassSession < ApplicationRecord
     )
 
     # Set teacher if not already set
-    session.teacher ||= owner_user if owner_user.respond_to?(:teacher?) && owner_user.teacher?
-    session.teacher ||= owner_user # Fallback
+    # Check if user has teacher role using the role system
+    if owner_user.role == 'teacher'
+      session.teacher ||= owner_user
+    else
+      session.teacher ||= owner_user # Fallback for any user
+    end
 
     # Parse recurrence rules
     if g_event_hash['recurrence'].present?

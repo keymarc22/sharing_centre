@@ -53,7 +53,12 @@ namespace :google_calendar do
   task setup_watches: :environment do
     puts "Setting up watch channels for all calendars..."
     
-    webhook_url = ENV['GOOGLE_CALENDAR_WEBHOOK_URL'] || "#{Rails.application.routes.url_helpers.root_url}google/calendar/push"
+    webhook_url = ENV['GOOGLE_CALENDAR_WEBHOOK_URL']
+    unless webhook_url
+      puts "ERROR: GOOGLE_CALENDAR_WEBHOOK_URL environment variable must be set"
+      puts "Example: export GOOGLE_CALENDAR_WEBHOOK_URL='https://your-domain.com/google/calendar/push'"
+      exit 1
+    end
     puts "Using webhook URL: #{webhook_url}"
     
     GoogleCalendar.all.each do |google_calendar|

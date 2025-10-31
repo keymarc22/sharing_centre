@@ -121,7 +121,7 @@ module Admin
     end
     
     def ensure_admin!
-      unless current_user&.role == 'admin'
+      unless current_user&.admin? || current_user&.superadmin?
         respond_to do |format|
           format.html do
             flash[:error] = "Access denied"

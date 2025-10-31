@@ -1,5 +1,5 @@
 require 'google/apis/calendar_v3'
-require 'googleauth'
+require 'signet/oauth2/client'
 
 class GoogleCalendarService
   include Google::Apis::CalendarV3
