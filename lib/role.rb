@@ -63,6 +63,7 @@ class Role
     can :study_intervals
     can :teachers
     can :classes
+    can :google_calendars
   end
 
   role :teacher do
