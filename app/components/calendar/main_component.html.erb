@@ -1,0 +1,33 @@
+<div class="calendar-section" data-controller="calendar" data-calendar-date-value="<%= calendar_date.to_s %>">
+  <div class="calendar-header">
+    <h4 class="calendar-title"></h4>
+    <div class="calendar-nav">
+      <button class="calendar-nav-button" data-action="click->calendar#previousMonth">
+        <%= lucide_icon "chevron-left", class: "calendar-nav-icon" %>
+      </button>
+      <button class="calendar-nav-button" data-action="click->calendar#nextMonth">
+        <%= lucide_icon "chevron-right", class: "calendar-nav-icon" %>
+      </button>
+    </div>
+  </div>
+
+  <div class="calendar-weekdays">
+    <% %w[Mon Tue Wed Thu Fri Sat Sun].each do |day| %>
+      <div class="weekday"><%= day %></div>
+    <% end %>
+  </div>
+
+  <div class="calendar-days" data-calendar-target="days">
+    <% first_day.times do |i| %>
+      <% prev_date = calendar_date.beginning_of_month - (first_day - i).days %>
+      <div class="calendar-day prev-month">
+        <%= prev_date.day %>
+      </div>
+    <% end %>
+
+    <% (1..days_in_month).each do |day| %>
+      <%= render Calendar::DayComponent.new(day:, calendar_date:) %>
+    <% end %>
+
+  </div>
+</div>

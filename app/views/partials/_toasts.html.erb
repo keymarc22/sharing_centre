@@ -1,0 +1,5 @@
+<%= turbo_frame_tag "toast-container", class: "toast-container" do %>
+  <% flash.each do |key, msg| %>
+    <%= render Ui::ToastComponent.new(message: msg, type: toast_type_for(key), auto_hide: true) %>
+  <% end %>
+<% end %>

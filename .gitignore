@@ -41,3 +41,5 @@ app/assets/builds/.keep
 vendor/javascript/.keep
 sharing_centre.sqlite3
 sharing_centre_dev
+/app/assets/builds/*
+!/app/assets/builds/.keep

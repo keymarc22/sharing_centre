@@ -1,6 +1,3 @@
-/* @import "tailwindcss"; */
-/* @import "shadcn.css"; */
-
 :root {
   /* core OKLCH tokens (opcional mantener para referencia) */
   --background: oklch(1 0 0);
@@ -96,7 +93,7 @@
 * {
   box-sizing: border-box;
   margin: 0;
-  padding: 0;
+  /* padding: 0; */
 }
 
 body {
@@ -128,7 +125,7 @@ body {
 /* Main content styles */
 .main-content {
   flex: 1;
-  /* padding: 24px; */
+  padding: 24px;
 }
 
 .main-header {

@@ -1,0 +1,12 @@
+<div class="main-header">
+  <div class="search-container">
+    <%= lucide_icon "search", class: "search-icon" %>
+    <input type="text" placeholder="Search" class="search-input">
+  </div>
+
+  <div class="user-info">
+    <span class="date-display"><%= Time.current.strftime("%d %B %Y, %A") %></span>
+
+    <%= render UserAvatarComponent.new(avatar: current_user[:avatar]) %>
+  </div>
+</div>

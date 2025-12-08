@@ -1,0 +1,19 @@
+#toast-container {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+#toast-container .toast {
+  width: fit-content;
+  align-items: center;
+}
+
+#toast-container .toast svg {
+  width: 16px;
+}

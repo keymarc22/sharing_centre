@@ -1,0 +1,37 @@
+<table class="<%= tw('w-full table-auto', @options[:class]) %>">
+  <% if caption.present? %>
+    <caption class="mt-4 text-sm text-muted-foreground"><%= caption %></caption>
+  <% end %>
+
+  <% if head && head.any? %>
+    <thead>
+      <tr class="bg-gray-200 text-gray-700 h-10">
+        <% head.each do |h| %>
+          <th class="<%= tw('text-left px-6 py-4 text-sm font-semibold', @options[:head_class]) %>"><%= h %></th>
+        <% end %>
+        <% if actions && actions.any? %>
+          <th class="<%= tw('text-left px-6 py-4 text-sm font-semibold', @options[:head_class]) %>"></th>
+        <% end %>
+      </tr>
+    </thead>
+  <% end %>
+
+  <tbody class="<%= tw('[&_tr:last-child]:border-0', @options[:tbody_class]) %>">
+    <% if has_rows? %>
+      <% rows.each do |row| %>
+        <tr class="<%= tw('border-b border-gray-200 hover:bg-gray-50', @options[:row_class]) %>">
+          <% Array(row).each do |cell| %>
+            <td class="<%= tw('px-6 py-4 text-sm text-gray-900', @options[:cell_class]) %>"><%= cell %></td>
+          <% end %>
+          <% if actions && actions.any? %>
+            <td class="<%= tw('px-6 py-4 text-sm text-gray-900 text-center flex items-center justify-center gap-2', @options[:action_td_class]) %>">
+              <%= action_links %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% else %>
+      <%= content %>
+    <% end %>
+  </tbody>
+</table>

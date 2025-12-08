@@ -1,0 +1,6 @@
+<a href="<%= item[:path]%>" class="nav-item <%= 'active' if active? %>">
+  <% if item[:icon] %>
+    <%= lucide_icon item[:icon] %>
+  <% end %>
+  <span class="nav-label"><%= item[:label] %></span>
+</a>

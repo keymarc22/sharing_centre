@@ -1,0 +1,20 @@
+es:
+  sidebar:
+    home: Home
+    students: Estudiantes
+    teachers: Profesores
+    programs: Programas
+    lessons: Lecciones
+    books: Libros
+    classes: Clases
+    logout: Cerrar sesión
+en:
+  sidebar:
+    home: Home
+    students: Students
+    teachers: Teachers
+    programs: Programs
+    lessons: Lessons
+    books: Books
+    classes: Classes
+    logout: Log out

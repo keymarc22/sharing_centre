@@ -1,0 +1,28 @@
+<div class="sidebar">
+  <div class="sidebar-content">
+    <!-- logo_container -->
+    <div class="logo-container">
+      <div class="logo-icon">
+        <%= image_tag "isotipo.png", alt: "Sharing Centre Logo" %>
+        <span class="logo-text">Sharing Centre</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <% items.each do |item| %>
+        <%= render Layout::SidebarItemComponent.new(item:) %>
+      <% end %>
+    </nav>
+
+    <div class="sidebar-footer">
+      <ul>
+        <li>
+          <a href="" class="nav-item" rel="noopener">
+            <%= lucide_icon "log-out" %>
+            <span><%= t('.logout')%></span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

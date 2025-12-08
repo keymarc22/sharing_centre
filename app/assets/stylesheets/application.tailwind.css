@@ -1,0 +1,9 @@
+/* Application Tailwind entrypoint
+   This file is used by shadcn-ui's generator to detect Tailwind in the app.
+   Keep the standard directives here. The shadcn-ui generator may insert
+   an `@import "shadcn.css";` line at the top when installing components.
+*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

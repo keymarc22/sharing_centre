@@ -1,4 +1,4 @@
-class Components::Layout < Components::Base
+class LayoutComponent < ApplicationComponent
   def initialize(title:, show_sidebar: true)
     @title = title
     @show_sidebar = show_sidebar

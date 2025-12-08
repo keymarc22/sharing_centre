@@ -1,4 +1,4 @@
-class Components::RightSidebar < Components::Base
+class Layout::RightSidebarComponent < ApplicationComponent
   def view_template
     div(class: 'right-sidebar') do
       div(class: 'profile-section') do
