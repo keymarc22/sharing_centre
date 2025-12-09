@@ -1,5 +1,7 @@
 ---
 en:
+  authorization:
+    unauthorized: No autorizado
   devise:
     sessions:
       new:
@@ -17,6 +19,7 @@ en:
         title: Sign in
         welcome: Welcome
       send_instructions: Send instructions
+
   errors:
     messages:
       not_saved: 'Could not save {resource}:'

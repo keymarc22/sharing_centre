@@ -1,12 +1,14 @@
+require 'devise/orm/active_record'
+
 Devise.setup do |config|
 
   config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
+
   config.parent_mailer = 'ApplicationMailer'
+
   config.mailer = 'CustomDeviseMailer'
 
   config.scoped_views = true
-
-  require 'devise/orm/active_record'
 
   config.case_insensitive_keys = [:email]
 
@@ -35,10 +37,14 @@ Devise.setup do |config|
   # these new defaults that match Hotwire/Turbo behavior.
   # Note: These might become the new default in future versions of Devise.
   config.responder.error_status = :unprocessable_entity
+
   config.responder.redirect_status = :see_other
 
   # https://github.com/heartcombo/devise/wiki/How-To:-Upgrade-to-Devise-4.9.0-%5BHotwire-Turbo-integration%5D
   config.responder.error_status = :unprocessable_entity
+
   config.responder.redirect_status = :see_other
+
   config.navigational_formats = ['*/*', :html, :turbo_stream]
 end
+

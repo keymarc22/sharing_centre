@@ -1,24 +1,24 @@
 <div class="dashboard-container" data-controller="dashboard">
   <div class="dashboard-layout">
     <!-- Sidebar -->
-    <%= render 'shared/sidebar' %>
+    <%= render Layout::SidebarComponent.new %>
 
     <!-- Main Content -->
     <div class="main-content">
       <!-- Header -->
-      <%= render 'shared/header', current_user: @current_user %>
+      <%= render Layout::HeaderComponent.new %>
 
       <!-- Welcome Section -->
       <%= render 'dashboard/welcome_section' %>
 
       <!-- Classes Section -->
-      <%= render 'dashboard/classes_section', classes: @classes %>
+      <%= render 'dashboard/classes_section', classes:[] %>
 
       <!-- Lessons Table -->
-      <%= render 'dashboard/lessons_section', lessons: @lessons %>
+      <%= render 'dashboard/lessons_section', lessons: [] %>
     </div>
 
     <!-- Right Sidebar -->
-    <%= render 'shared/right_sidebar', current_user: @current_user, reminders: @reminders, calendar_date: @calendar_date %>
+    <%= render Layout::RightSidebarComponent.new %>
   </div>
 </div>
