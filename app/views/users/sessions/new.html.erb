@@ -4,24 +4,12 @@
   <span class="language-badge"><%= t('devise.sessions.new.language') %></span>
 </div>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { data: { controller: 'toggle-password' } }) do |f| %>
+<%= simple_form_for resource, as: resource_name, url: session_path(resource_name), html: { data: { controller: 'toggle-password' } } do |f| %>
   <%= render "users/shared/error_messages", resource: resource %>
 
-  <div class="form-group">
-    <%= f.label :email, t('devise.sessions.new.email') %>
-    <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true %>
-  </div>
+  <%= f.input :email, label: t('devise.sessions.new.email') %>
 
-  <div class="form-group">
-    <%= f.label :password, t('devise.sessions.new.password').capitalize %>
-    <div class="password-wrapper">
-      <%= f.password_field :password, autocomplete: "current-password", placeholder: "••••••••", data: { 'toggle-password-target': 'password' }, required: true %>
-      <button type="button" class="toggle-password" data-action="click->toggle-password#toggle" data-toggle-password-target="toggle">
-        <%= lucide_icon 'eye', class: 'open' %>
-        <%= lucide_icon 'eye-closed', class: 'closed' %>
-      </button>
-    </div>
-  </div>
+  <%= render Forms::InputPasswordComponent.new(f:)%>
 
   <% if devise_mapping.rememberable? %>
     <div class="d-flex gap-1">

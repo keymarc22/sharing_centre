@@ -1,5 +1,20 @@
 ---
 es:
+  activerecord:
+    models:
+      user: Usuario
+    attributes:
+      user:
+        email: Correo electrónico
+        password: Contraseña
+        password_confirmation: Confirmación de contraseña
+        name: Nombre
+
+  authorization:
+    unauthorized: No autorizado
+
+  common:
+    view_all: Ver todo
   devise:
     sessions:
       new:
@@ -17,6 +32,17 @@ es:
         title: Iniciar sesión
         welcome: Bienvenido
       send_instructions: Send instructions
+
+  views:
+    users:
+      index: Gestión de Estudiantes
+      table:
+        caption: Lista de estudiantes de la plataforma
+        actions:
+          view: Ver
+          edit: Editar
+          delete: Eliminar
+
   errors:
     messages:
       not_saved: 'No fue posible guardar el {resource}:'
