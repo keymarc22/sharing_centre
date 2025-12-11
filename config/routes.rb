@@ -4,9 +4,12 @@ Rails.application.routes.draw do
   root 'dashboard#index'
   get "/:locale" => "dashboard#index"
 
+  devise_for :users, controllers: {
+    sessions: 'users/sessions',
+    omniauth_callbacks: 'users/omniauth_callbacks'
+  }
+  
   scope '/:locale', locale: /es|en/ do
-    devise_for :users, controllers: { sessions: 'users/sessions' }
-
     resources :students, only: %i[index show]
     resources :teachers, only: [:index]
   end

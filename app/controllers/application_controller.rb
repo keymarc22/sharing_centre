@@ -29,6 +29,6 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    stored_location_for(resource) || dashboard_path(locale: I18n.locale || I18n.default_locale)
+    stored_location_for(resource) || root_path(locale: I18n.locale || I18n.default_locale)
   end
 end

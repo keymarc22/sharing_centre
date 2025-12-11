@@ -25,6 +25,14 @@
   <%= f.submit t('devise.sessions.new.sign_in'), class: 'btn-login' %>
 <% end %>
 
+<div class="divider">
+  <% resource_class.omniauth_providers.each do |provider| %>
+    <%= form_for "Login", url: user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false } do |f| %>
+      <%= image_submit_tag 'google_btn.png', alt: 'Login with Google', with: '100' %>
+    <% end %>
+  <% end %>
+</div>
+
 <!--
 <div class="divider">
   <span><%= t('devise.sessions.new.or') %></span>
