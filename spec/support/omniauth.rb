@@ -11,14 +11,15 @@ module OmniauthHelpers
   #   name: Nombre completo del usuario
   #   provider: Proveedor OAuth (por defecto 'google_oauth2')
   def mock_google_oauth(uid: '123456789', email: 'test@example.com', name: 'Test User', provider: 'google_oauth2')
+    name_parts = name&.split || []
     OmniAuth::AuthHash.new({
       provider: provider,
       uid: uid,
       info: {
         email: email,
         name: name,
-        first_name: name.split.first,
-        last_name: name.split.last,
+        first_name: name_parts.first,
+        last_name: name_parts.last,
         image: 'https://lh3.googleusercontent.com/a/default-user'
       },
       credentials: {
