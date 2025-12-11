@@ -30,6 +30,10 @@ Devise.setup do |config|
 
   config.sign_out_via = :delete
 
+  config.omniauth :google_oauth2,
+                  Rails.application.credentials.google_oauth_client_id,
+                  Rails.application.credentials.google_oauth_client_secret
+
   # ==> Hotwire/Turbo configuration
   # When using Devise with Hotwire/Turbo, the http status for error responses
   # and some redirects must match the following. The default in Devise for existing

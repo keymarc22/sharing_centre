@@ -40,7 +40,7 @@ gem 'i18n-tasks', '~> 1.0.15', group: :development
 
 gem 'omniauth-google-oauth2'
 
-gem 'google-api-client', '~> 0.53' # include Google::Apis::CalendarV3
+gem "omniauth-rails_csrf_protection"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
