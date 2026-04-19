@@ -32,7 +32,10 @@ Devise.setup do |config|
 
   config.omniauth :google_oauth2,
                   Rails.application.credentials.google_oauth_client_id,
-                  Rails.application.credentials.google_oauth_client_secret
+                  Rails.application.credentials.google_oauth_client_secret,
+                  scope: 'userinfo.email, userinfo.profile, https://www.googleapis.com/auth/calendar',
+                  access_type: 'offline',
+                  prompt: 'consent'
 
   # ==> Hotwire/Turbo configuration
   # When using Devise with Hotwire/Turbo, the http status for error responses
