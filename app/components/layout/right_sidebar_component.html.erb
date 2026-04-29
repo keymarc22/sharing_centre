@@ -10,7 +10,7 @@
   </div>
 
   <!-- Calendar -->
-  <%= render Calendar::MainComponent.new %>
+  <%= render Calendar::MainComponent.new(events: fetch_calendar_events) %>
 
   <!-- Reminders -->
   <%# render 'shared/reminders', reminders: reminders %>

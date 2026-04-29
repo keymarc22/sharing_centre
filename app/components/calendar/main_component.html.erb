@@ -1,33 +1,37 @@
-<div class="calendar-section" data-controller="calendar" data-calendar-date-value="<%= calendar_date.to_s %>">
-  <div class="calendar-header">
-    <h4 class="calendar-title"></h4>
-    <div class="calendar-nav">
-      <button class="calendar-nav-button" data-action="click->calendar#previousMonth">
-        <%= lucide_icon "chevron-left", class: "calendar-nav-icon" %>
-      </button>
-      <button class="calendar-nav-button" data-action="click->calendar#nextMonth">
-        <%= lucide_icon "chevron-right", class: "calendar-nav-icon" %>
-      </button>
+<%= turbo_frame_tag "calendar" do %>
+  <div class="calendar-section" data-controller="calendar" data-calendar-new-url-value="<%= helpers.new_calendar_path(locale: I18n.locale) %>">
+    <div class="calendar-header">
+      <h4 class="calendar-title">
+        <%= calendar_date.strftime('%B %Y') %>
+      </h4>
+      <div class="calendar-nav">
+        <%= link_to navigate_calendars_path(locale: I18n.locale, date: prev_month_date), class: "calendar-nav-button", data: { turbo_frame: "calendar" } do %>
+          <%= lucide_icon "chevron-left", class: "calendar-nav-icon" %>
+        <% end %>
+        <%= link_to navigate_calendars_path(locale: I18n.locale, date: next_month_date), class: "calendar-nav-button", data: { turbo_frame: "calendar" } do %>
+          <%= lucide_icon "chevron-right", class: "calendar-nav-icon" %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="calendar-weekdays">
+      <% %w[Mon Tue Wed Thu Fri Sat Sun].each do |day| %>
+        <div class="weekday"><%= day %></div>
+      <% end %>
+    </div>
+
+    <div class="calendar-days">
+      <% first_day.times do |i| %>
+        <% prev_date = calendar_date.beginning_of_month - (first_day - i).days %>
+        <div class="calendar-day prev-month">
+          <%= prev_date.day %>
+        </div>
+      <% end %>
+
+      <% (1..days_in_month).each do |day| %>
+        <% day_events = events_by_day[day] || [] %>
+        <%= render Calendar::DayComponent.new(day:, calendar_date:, events: day_events) %>
+      <% end %>
     </div>
   </div>
-
-  <div class="calendar-weekdays">
-    <% %w[Mon Tue Wed Thu Fri Sat Sun].each do |day| %>
-      <div class="weekday"><%= day %></div>
-    <% end %>
-  </div>
-
-  <div class="calendar-days" data-calendar-target="days">
-    <% first_day.times do |i| %>
-      <% prev_date = calendar_date.beginning_of_month - (first_day - i).days %>
-      <div class="calendar-day prev-month">
-        <%= prev_date.day %>
-      </div>
-    <% end %>
-
-    <% (1..days_in_month).each do |day| %>
-      <%= render Calendar::DayComponent.new(day:, calendar_date:) %>
-    <% end %>
-
-  </div>
-</div>
+<% end %>

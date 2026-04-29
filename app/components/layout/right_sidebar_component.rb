@@ -1,21 +1,17 @@
 class Layout::RightSidebarComponent < ApplicationComponent
-  def view_template
-    div(class: 'right-sidebar') do
-      div(class: 'profile-section') do
-        div(class: 'profile-avatar') do
-          current_user.name[0].upcase
-        end
+  def fetch_calendar_events
+    return [] unless current_user.present?
 
-        h3(class: 'profile-name') do
-          current_user.name
-        end
+    time_range = Date.today.beginning_of_month..Date.today.end_of_month.end_of_day
 
-        button(class: 'profile-button') do
-          'Profile'
-        end
-      end
-
-      render Components::Calendar.new
+    if current_user.admin?
+      ClassSession.where(start_at: time_range).order(:start_at)
+    elsif current_user.teacher?
+      ClassSession.where(teacher_id: current_user.id, start_at: time_range).order(:start_at)
+    elsif current_user.student?
+      ClassSession.where(student_id: current_user.id, start_at: time_range).order(:start_at)
+    else
+      []
     end
   end
 end

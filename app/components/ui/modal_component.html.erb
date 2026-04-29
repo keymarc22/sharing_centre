@@ -1,0 +1,26 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 <%= 'hidden' unless @open %> <%= @klass %>"
+     style="z-index: 10000;"
+     data-controller="ui--modal"
+     data-action="turbo:frame-load->ui--modal#open turbo:submit-end->ui--modal#close">
+
+  <div class="bg-white sm:rounded-lg shadow-lg w-full h-full relative 
+              max-w-full sm:max-w-md
+              sm:h-auto 
+              sm:max-h-[90vh] 
+              mx-auto my-0 sm:my-8 
+              p-0 overflow-hidden">
+
+    <div class="p-6 h-full overflow-y-auto">
+
+      <%= render Ui::ButtonComponent.new(variant: :ghost, size: :icon, klass: "absolute top-3 right-3", "data-action": "click->ui--modal#close") do %>
+        <%= lucide_icon "x", class: "w-4 h-4" %>
+      <% end %>
+
+      <% if content.present? %>
+        <%= content %>
+      <% else %>
+        <%= turbo_frame_tag 'modal'%>
+      <% end %>
+    </div>
+  </div>
+</div>
