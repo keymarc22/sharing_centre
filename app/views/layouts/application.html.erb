@@ -23,8 +23,10 @@
   </head>
 
   <body>
-    <main class="mx-auto mt-28">
+    <main class="mx-auto">
       <%= yield %>
     </main>
+    
+    <%= render Ui::ModalComponent.new(klass: "hidden") %>
   </body>
 </html>

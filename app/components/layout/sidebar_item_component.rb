@@ -6,7 +6,7 @@ class Layout::SidebarItemComponent < ApplicationComponent
   end
 
   def render?
-    current_user.can?(@item[:ability], :read)
+    current_user.can?(@item[:ability], :index) || current_user.can?(@item[:ability], :manage)
   end
 
   def active?

@@ -1,0 +1,87 @@
+<%= turbo_frame_tag 'modal' do %>
+  <h2 class="text-lg font-semibold mb-6">Create Class Session</h2>
+
+  <%= simple_form_for @class_session, url: calendars_path, method: :post do |f| %>
+    <%= f.error_notification %>
+
+    <%= f.input :title %>
+
+    <%= f.input :description, as: :text, input_html: { rows: 3 } %>
+
+    <div class="grid grid-cols-2 gap-4">
+      <%= f.input :start_at, as: :string, input_html: { type: "datetime-local" }, wrapper_html: { class: "flex flex-col gap-1.5 mb-0" } %>
+      <%= f.input :end_at,   as: :string, input_html: { type: "datetime-local" }, wrapper_html: { class: "flex flex-col gap-1.5 mb-0" } %>
+    </div>
+
+    <%= f.input :time_zone,
+          as: :select,
+          collection: ActiveSupport::TimeZone.all.map { |tz| [tz.name, tz.name] },
+          selected: "UTC",
+          include_blank: false %>
+
+    <% if current_user.admin? %>
+      <div class="grid grid-cols-2 gap-4">
+        <%= f.association :teacher,
+              collection: Teacher.all,
+              label_method: :name,
+              value_method: :id,
+              wrapper_html: { class: "flex flex-col gap-1.5 mb-0" } %>
+        <%= f.association :student,
+              collection: Student.all,
+              label_method: :name,
+              value_method: :id,
+              wrapper_html: { class: "flex flex-col gap-1.5 mb-0" } %>
+      </div>
+    <% elsif current_user.teacher? %>
+      <%= f.hidden_field :teacher_id, value: current_user.id %>
+      <%= f.association :student,
+            collection: Student.all,
+            label_method: :name,
+            value_method: :id %>
+    <% end %>
+
+    <div class="flex flex-col gap-2 mt-2" data-controller="recurrence">
+      <label class="flex items-center gap-2 text-sm font-medium cursor-pointer">
+        <%= check_box_tag :recurrence_enabled, '1', false,
+              data: { action: 'change->recurrence#toggle', recurrence_target: 'toggle' },
+              class: "rounded border-gray-300" %>
+        Repeat this class
+      </label>
+
+      <div data-recurrence-target="fields" class="hidden flex flex-col gap-3 pl-4 border-l-2 border-gray-200">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="flex flex-col gap-1.5">
+            <%= label_tag :recurrence_frequency, 'Frequency', class: "text-sm font-medium" %>
+            <%= select_tag :recurrence_frequency,
+                  options_for_select([['Every week', 'weekly'], ['Every 2 weeks', 'biweekly']]),
+                  class: "rounded-md border border-input bg-background px-3 py-2 text-sm" %>
+          </div>
+
+          <div class="flex flex-col gap-1.5" data-recurrence-target="countField">
+            <%= label_tag :recurrence_count, 'Number of classes', class: "text-sm font-medium" %>
+            <%= number_field_tag :recurrence_count, 10, min: 2, max: 52,
+                  class: "rounded-md border border-input bg-background px-3 py-2 text-sm w-full" %>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 text-sm text-muted-foreground">
+          <span>Or end by date:</span>
+          <%= date_field_tag :recurrence_until,
+                nil,
+                class: "rounded-md border border-input bg-background px-3 py-2 text-sm",
+                data: { action: 'change->recurrence#handleUntil', recurrence_target: 'untilField' } %>
+        </div>
+      </div>
+    </div>
+
+    <%= f.input :meet_link, placeholder: "https://meet.google.com/..." %>
+
+    <div class="flex justify-end gap-2 mt-6">
+      <%= render Ui::ButtonComponent.new(variant: :outline, data: { action: "click->ui--modal#close" }) do %>
+        Cancel
+      <% end %>
+      <%= f.submit "Create Class",
+            class: "inline-flex items-center justify-center gap-2 rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/80 h-9 px-4 text-sm cursor-pointer" %>
+    </div>
+  <% end %>
+<% end %>

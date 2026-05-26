@@ -35,6 +35,7 @@ gem "lucide-rails"
 gem 'view_component'
 
 gem 'simple_form'
+gem 'country_select'
 
 gem 'i18n-tasks', '~> 1.0.15', group: :development
 
@@ -42,10 +43,20 @@ gem 'omniauth-google-oauth2'
 
 gem "omniauth-rails_csrf_protection"
 
+gem 'google-api-ruby-client'
+
+gem 'google-apis-calendar_v3'
+gem 'ice_cube'
 # evita inyección de comandos en algunas rutas
 gem 'thor'
 # parchea fuga de credenciales en URI
 gem 'uri', '>= 1.0.4'
+
+group :development do
+  gem "lookbook", ">= 2.3.14"
+  gem "listen"
+  gem "actioncable"
+end
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

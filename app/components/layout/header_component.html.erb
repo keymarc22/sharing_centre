@@ -1,4 +1,8 @@
 <div class="main-header">
+  <button class="hamburger-btn" data-action="click->sidebar#toggle" aria-label="Toggle menu">
+    <%= lucide_icon "menu", class: "w-6 h-6" %>
+  </button>
+
   <div class="search-container">
     <%= lucide_icon "search", class: "search-icon" %>
     <input type="text" placeholder="Search" class="search-input">

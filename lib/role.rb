@@ -74,6 +74,7 @@ class Role
     can :personalized_programs
     can :personalized_program_topics
     can :classes
+    can :students, only: [:index]
   end
 
   role :student do
@@ -86,6 +87,6 @@ class Role
     can :books, only: [:show]
     can :book_lists, only: [:show]
     can :teachers, only: [:show]
-    can :classes, only: [:show]
+    can :classes, only: [:index, :show]
   end
 end

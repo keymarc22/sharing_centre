@@ -4,6 +4,18 @@
   <span class="language-badge"><%= t('devise.sessions.new.language') %></span>
 </div>
 
+<% if flash[:alert].present? %>
+  <div class="login-alert login-alert--error" role="alert">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
+
+<% if flash[:notice].present? %>
+  <div class="login-alert login-alert--notice" role="status">
+    <%= flash[:notice] %>
+  </div>
+<% end %>
+
 <%= simple_form_for resource, as: resource_name, url: session_path(resource_name), html: { data: { controller: 'toggle-password' } } do |f| %>
   <%= render "users/shared/error_messages", resource: resource %>
 

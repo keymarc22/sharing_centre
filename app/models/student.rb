@@ -5,6 +5,7 @@ class Student < User
   has_many :student_programs
   has_many :programs, through: :student_programs
   has_many :book_lists, dependent: :destroy
+  has_many :class_sessions, foreign_key: :student_id
 
   has_one :personalized_program
 

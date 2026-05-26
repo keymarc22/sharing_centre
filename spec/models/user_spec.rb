@@ -152,3 +152,125 @@ RSpec.describe User, type: :model do
     end
   end
 end
+
+RSpec.describe User, type: :model do
+  describe '.from_omniauth' do
+    let(:auth) do
+      double('OmniAuth::AuthHash',
+        provider: 'google_oauth2',
+        uid: '12345',
+        info: double(name: 'Test User', email: 'test@example.com', image: 'https://example.com/avatar.jpg', country_code: 'US'),
+        credentials: double(token: 'access_token_123', refresh_token: 'refresh_token_123', expires_at: (Time.current + 1.hour).to_i)
+      )
+    end
+
+    context 'when user does not exist' do
+      it 'creates a new user' do
+        expect {
+          User.from_omniauth(auth)
+        }.to change(User, :count).by(1)
+      end
+
+      it 'saves google tokens' do
+        user = User.from_omniauth(auth)
+
+        expect(user.google_access_token).to eq('access_token_123')
+        expect(user.google_refresh_token).to eq('refresh_token_123')
+        expect(user.google_token_expires_at).to be_present
+        expect(user.provider).to eq('google_oauth2')
+        expect(user.uid).to eq('12345')
+      end
+
+      it 'sets default role to student' do
+        user = User.from_omniauth(auth)
+        expect(user.role).to eq('student')
+      end
+    end
+
+    context 'when user already exists' do
+      let!(:existing_user) { create(:user, provider: 'google_oauth2', uid: '12345') }
+
+      it 'updates existing user' do
+        expect {
+          User.from_omniauth(auth)
+        }.not_to change(User, :count)
+      end
+
+      it 'updates google tokens on re-login' do
+        User.from_omniauth(auth)
+
+        existing_user.reload
+        expect(existing_user.google_access_token).to eq('access_token_123')
+        expect(existing_user.google_refresh_token).to eq('refresh_token_123')
+      end
+    end
+
+    context 'when email is missing' do
+      let(:auth_without_email) do
+        double('OmniAuth::AuthHash',
+          provider: 'google_oauth2',
+          uid: '12345',
+          info: double(name: 'Test', email: nil, image: nil, country_code: nil),
+          credentials: nil
+        )
+      end
+
+      it 'returns nil' do
+        result = User.from_omniauth(auth_without_email)
+        expect(result).to be_nil
+      end
+    end
+  end
+
+  describe '#google_connected?' do
+    context 'when user has google oauth' do
+      let(:user) { create(:user, :with_google_oauth) }
+
+      it 'returns true' do
+        expect(user.google_connected?).to be true
+      end
+    end
+
+    context 'when user does not have google oauth' do
+      let(:user) { create(:user) }
+
+      it 'returns false' do
+        expect(user.google_connected?).to be false
+      end
+    end
+
+    context 'when user has provider but no token' do
+      let(:user) { create(:user, provider: 'google_oauth2', google_access_token: nil) }
+
+      it 'returns false' do
+        expect(user.google_connected?).to be false
+      end
+    end
+  end
+
+  describe '#google_token_expired?' do
+    context 'when token has expired' do
+      let(:user) { create(:user, :with_google_oauth, google_token_expires_at: 1.hour.ago) }
+
+      it 'returns true' do
+        expect(user.google_token_expired?).to be true
+      end
+    end
+
+    context 'when token is still valid' do
+      let(:user) { create(:user, :with_google_oauth, google_token_expires_at: 1.hour.from_now) }
+
+      it 'returns false' do
+        expect(user.google_token_expired?).to be false
+      end
+    end
+
+    context 'when token expiration is not set' do
+      let(:user) { create(:user, google_token_expires_at: nil) }
+
+      it 'returns false' do
+        expect(user.google_token_expired?).to be false
+      end
+    end
+  end
+end

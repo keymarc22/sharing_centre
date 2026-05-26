@@ -7,7 +7,7 @@
         Etudier en France for B1 and B2 levels.
         <span class="learn-more"><%= t('views.dashboard.learn_more') %></span>
       </p>
-      <button class="buy-button"><%= t('views.dashboard.buy_lesson') %></button>
+      <%= render Ui::ButtonComponent.new(variant: :primary).with_content(t('views.dashboard.buy_lesson')) %>
     </div>
     <div class="welcome-image">
       <%= lucide_icon "book-open", class: "book-icon" %>

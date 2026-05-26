@@ -1,0 +1,90 @@
+<div class="dashboard-container">
+  <div class="dashboard-layout" data-controller="sidebar">
+    <div class="sidebar-overlay hidden" data-sidebar-target="overlay" data-action="click->sidebar#close"></div>
+    <%= render Layout::SidebarComponent.new %>
+
+    <div class="main-content">
+      <%= render Layout::HeaderComponent.new %>
+
+      <div class="p-6">
+        <div class="section-header mb-6">
+          <h2 class="text-2xl font-semibold">Teachers</h2>
+        </div>
+
+        <% if @teachers.any? %>
+          <%# Desktop table %>
+          <div class="lessons-table-card hidden md:block">
+            <table class="lessons-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Country</th>
+                  <th>Students</th>
+                  <th>Upcoming Classes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @teachers.each do |teacher| %>
+                  <%
+                    student_count  = ClassSession.where(teacher_id: teacher.id).distinct.count(:student_id)
+                    upcoming_count = ClassSession.where(teacher_id: teacher.id).where('start_at >= ?', Time.current).count
+                  %>
+                  <tr>
+                    <td class="class-cell font-medium"><%= teacher.name %></td>
+                    <td class="text-muted-foreground"><%= teacher.email %></td>
+                    <td><%= teacher.country_code&.upcase || "—" %></td>
+                    <td>
+                      <span class="payment-badge payment-done"><%= student_count %> students</span>
+                    </td>
+                    <td>
+                      <% if upcoming_count > 0 %>
+                        <span class="payment-badge payment-done"><%= upcoming_count %> upcoming</span>
+                      <% else %>
+                        <span class="text-muted-foreground text-sm">None</span>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+
+          <%# Mobile cards %>
+          <div class="md:hidden space-y-3">
+            <% @teachers.each do |teacher| %>
+              <%
+                student_count  = ClassSession.where(teacher_id: teacher.id).distinct.count(:student_id)
+                upcoming_count = ClassSession.where(teacher_id: teacher.id).where('start_at >= ?', Time.current).count
+              %>
+              <div class="person-card">
+                <div class="person-card-avatar person-card-avatar--teacher"><%= teacher.name&.first&.upcase %></div>
+                <div class="person-card-info">
+                  <div class="person-card-name"><%= teacher.name %></div>
+                  <div class="person-card-email"><%= teacher.email %></div>
+                  <div class="person-card-meta">
+                    <span class="payment-badge payment-done"><%= student_count %> students</span>
+                    <% if upcoming_count > 0 %>
+                      <span class="payment-badge payment-done"><%= upcoming_count %> upcoming</span>
+                    <% end %>
+                    <% if teacher.country_code.present? %>
+                      <span class="text-slate-400 text-xs"><%= teacher.country_code.upcase %></span>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="flex flex-col items-center justify-center py-16 text-center text-muted-foreground">
+            <%= lucide_icon "graduation-cap", class: "w-12 h-12 mb-4 opacity-30" %>
+            <p class="text-lg font-medium">No teachers yet</p>
+            <p class="text-sm mt-1">There are no teachers registered in the system.</p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <%= render Layout::RightSidebarComponent.new %>
+  </div>
+</div>

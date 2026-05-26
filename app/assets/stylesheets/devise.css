@@ -183,6 +183,29 @@ input[type="password"]:focus {
   text-decoration: underline;
 }
 
+.login-alert {
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.login-alert--error {
+  background-color: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+.login-alert--notice {
+  background-color: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
 .language-badge {
   display: inline-block;
   padding: 4px 12px;
@@ -195,12 +218,22 @@ input[type="password"]:focus {
 }
 
 @media (max-width: 480px) {
+  #devise {
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 0;
+    align-items: stretch;
+  }
+
   .login-container {
-      padding: 32px 24px;
+    border-radius: 0;
+    box-shadow: none;
+    max-width: 100%;
+    padding: 32px 24px;
   }
 
   .welcome-text h1 {
-      font-size: 24px;
+    font-size: 24px;
   }
 }
 

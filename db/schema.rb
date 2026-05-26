@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_31_211600) do
+ActiveRecord::Schema[8.0].define(version: 2026_05_25_234401) do
   create_table "book_lists", force: :cascade do |t|
     t.string "name", null: false
     t.integer "student_id", null: false
@@ -34,6 +34,30 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_31_211600) do
     t.index ["lesson_id"], name: "index_books_on_lesson_id"
     t.index ["lesson_topic_id"], name: "index_books_on_lesson_topic_id"
     t.index ["name"], name: "index_books_on_name"
+  end
+
+  create_table "class_sessions", force: :cascade do |t|
+    t.integer "teacher_id", null: false
+    t.integer "student_id", null: false
+    t.integer "lesson_id"
+    t.string "title", null: false
+    t.text "description"
+    t.datetime "start_at", null: false
+    t.datetime "end_at", null: false
+    t.string "time_zone", default: "UTC"
+    t.string "meet_link"
+    t.string "google_event_id"
+    t.integer "google_calendar_owner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "recurrence_rule"
+    t.date "recurrence_ends_at"
+    t.index ["google_event_id"], name: "index_class_sessions_on_google_event_id", unique: true, where: "google_event_id IS NOT NULL"
+    t.index ["lesson_id"], name: "index_class_sessions_on_lesson_id"
+    t.index ["student_id", "start_at"], name: "index_class_sessions_on_student_id_and_start_at"
+    t.index ["student_id"], name: "index_class_sessions_on_student_id"
+    t.index ["teacher_id", "start_at"], name: "index_class_sessions_on_teacher_id_and_start_at"
+    t.index ["teacher_id"], name: "index_class_sessions_on_teacher_id"
   end
 
   create_table "lesson_topics", force: :cascade do |t|
@@ -151,10 +175,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_31_211600) do
     t.string "avatar_url"
     t.string "uid"
     t.string "provider"
+    t.text "google_access_token"
+    t.string "google_refresh_token"
+    t.datetime "google_token_expires_at"
     t.index ["active_program_id"], name: "index_users_on_active_program_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "class_sessions", "lessons"
+  add_foreign_key "class_sessions", "users", column: "student_id"
+  add_foreign_key "class_sessions", "users", column: "teacher_id"
   add_foreign_key "users", "student_programs", column: "active_program_id"
 end

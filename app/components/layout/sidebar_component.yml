@@ -8,6 +8,7 @@ es:
     books: Libros
     classes: Clases
     logout: Cerrar sesión
+    edit_profile: Editar perfil
 en:
   sidebar:
     home: Home
@@ -18,3 +19,4 @@ en:
     books: Books
     classes: Classes
     logout: Log out
+    edit_profile: Edit profile

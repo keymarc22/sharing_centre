@@ -1,0 +1,74 @@
+<div id="events-modal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Events for <span id="events-modal-date"></span></h2>
+      <button class="modal-close" onclick="document.getElementById('events-modal').style.display = 'none'">×</button>
+    </div>
+
+    <div id="events-modal-body">
+      <!-- Events will be populated by JavaScript -->
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" onclick="document.getElementById('events-modal').style.display = 'none'">Close</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  #events-modal-body {
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+
+  .event-item {
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 12px;
+    background: #f9f9f9;
+  }
+
+  .event-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .event-item h3 {
+    margin: 0 0 8px 0;
+    color: #1a1a1a;
+    font-size: 16px;
+  }
+
+  .event-item p {
+    margin: 4px 0;
+    color: #666;
+    font-size: 14px;
+  }
+
+  .event-item .event-time {
+    font-weight: 500;
+    color: #667eea;
+  }
+
+  .event-item .event-teacher {
+    color: #666;
+  }
+
+  .event-item a {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 6px 12px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .event-item a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+  }
+</style>
