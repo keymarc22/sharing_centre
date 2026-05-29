@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_05_25_234401) do
+ActiveRecord::Schema[8.0].define(version: 2026_05_28_000000) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_catalog.plpgsql"
+
   create_table "book_lists", force: :cascade do |t|
     t.string "name", null: false
     t.integer "student_id", null: false
@@ -52,7 +55,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_25_234401) do
     t.datetime "updated_at", null: false
     t.string "recurrence_rule"
     t.date "recurrence_ends_at"
-    t.index ["google_event_id"], name: "index_class_sessions_on_google_event_id", unique: true, where: "google_event_id IS NOT NULL"
+    t.index ["google_event_id"], name: "index_class_sessions_on_google_event_id", unique: true, where: "(google_event_id IS NOT NULL)"
     t.index ["lesson_id"], name: "index_class_sessions_on_lesson_id"
     t.index ["student_id", "start_at"], name: "index_class_sessions_on_student_id_and_start_at"
     t.index ["student_id"], name: "index_class_sessions_on_student_id"
@@ -144,7 +147,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_25_234401) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["program_id"], name: "index_student_programs_on_program_id"
-    t.index ["student_id", "status"], name: "idx_student_active_program", unique: true, where: "status = 0"
+    t.index ["student_id", "status"], name: "idx_student_active_program", unique: true, where: "(status = 0)"
     t.index ["student_id"], name: "index_student_programs_on_student_id"
     t.index ["study_interval_id"], name: "index_student_programs_on_study_interval_id"
   end
@@ -162,7 +165,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_25_234401) do
     t.string "email", null: false
     t.string "country_code", null: false
     t.string "phone"
-    t.json "custom_data"
+    t.jsonb "custom_data"
     t.string "encrypted_password", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"

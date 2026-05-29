@@ -34,6 +34,13 @@ module SharingCentre
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
+    # ViewComponentsController subclasses Lookbook::PreviewController, and the
+    # lookbook gem is only bundled in development. Skip eager loading it so
+    # production boot doesn't fail on the missing Lookbook constant. It stays
+    # autoloadable on demand, so Lookbook can still load it in development
+    # (where the base controller is available at request time).
+    Rails.autoloaders.main.do_not_eager_load(Rails.root.join("app/controllers/view_components_controller.rb"))
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

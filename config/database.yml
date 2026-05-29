@@ -1,40 +1,27 @@
-# SQLite. Versions 3.8.0 and up are supported.
-#   gem install sqlite3
+# PostgreSQL. Versions 9.3 and up are supported.
 #
-#   Ensure the SQLite 3 gem is defined in your Gemfile
-#   gem "sqlite3"
+#   Ensure the pg gem is defined in your Gemfile
+#   gem "pg"
 #
+# Connection is driven by DATABASE_URL in every environment. dev/test fall back
+# to a local default so they work without setting anything; CI and Heroku
+# provide their own DATABASE_URL.
 default: &default
-  adapter: sqlite3
+  adapter: postgresql
+  encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: 5000
 
 development:
   <<: *default
-  database: <%= Rails.application.credentials.database.name %>
-  username: <%= Rails.application.credentials.database.username %>
-  password: <%= Rails.application.credentials.database.password %>
-  host: <%= Rails.application.credentials.database.host %>
-  port: <%= Rails.application.credentials.database.port %>
+  url: <%= ENV.fetch("DATABASE_URL") { "postgres://keymar@localhost:5432/sharing_centre_dev" } %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: storage/test.sqlite3
+  url: <%= ENV.fetch("DATABASE_URL") { "postgres://admin@localhost:5432/sharing_centre_test" } %>
 
-
-# SQLite3 write its data on the local filesystem, as such it requires
-# persistent disks. If you are deploying to a managed service, you should
-# make sure it provides disk persistence, as many don't.
-#
-# Similarly, if you deploy your application as a Docker container, you must
-# ensure the database is located in a persisted volume.
 production:
   <<: *default
-  database: <%= Rails.application.credentials.database.name %>
-  username: <%= Rails.application.credentials.database.username %>
-  password: <%= Rails.application.credentials.database.password %>
-  host: <%= Rails.application.credentials.database.host %>
-  port: <%= Rails.application.credentials.database.port %>
+  url: <%= ENV["DATABASE_URL"] %>
